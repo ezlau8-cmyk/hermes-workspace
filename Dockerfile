@@ -52,6 +52,7 @@ COPY --chown=workspace:workspace docker/entrypoint.sh /usr/local/bin/docker-entr
 ENV NODE_ENV=production \
     PORT=3000 \
     HOST=0.0.0.0 \
+    HERMES_PASSWORD=change-me-in-render-dashboard \
     HERMES_API_URL=http://hermes-agent:8642
 
 EXPOSE 3000
