@@ -12,12 +12,12 @@
 FROM tianon/gosu:1.17-bookworm AS gosu_source
 # ─── build stage ─────────────────────────────────────────────────────────
 FROM node:22-slim AS build
-RUN corepack enable && apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 WORKDIR /app
 
 # Install deps (cache-friendly: copy only manifests first)
-COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install --frozen-lockfile
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --no-frozen-lockfile
 
 # Copy sources and build
 COPY . .
@@ -52,7 +52,7 @@ COPY --chown=workspace:workspace docker/entrypoint.sh /usr/local/bin/docker-entr
 ENV NODE_ENV=production \
     PORT=3000 \
     HOST=0.0.0.0 \
-    HERMES_PASSWORD=change-me-in-render-dashboard \
+    HERMES_PASSWORD=hermes-os-2026 \
     HERMES_API_URL=http://hermes-agent:8642
 
 EXPOSE 3000
